@@ -1,13 +1,12 @@
 from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.responses import JSONResponse
 from dotenv import load_dotenv
-from langchain.document_loaders import TextLoader, PyMuPDFLoader
 import os
 
-from langchain.document_loaders import TextLoader
+from langchain_community.document_loaders import TextLoader, PyMuPDFLoader
 from langchain.text_splitter import CharacterTextSplitter
-from langchain.embeddings import HuggingFaceEmbeddings
-from langchain.vectorstores import Chroma
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.vectorstores import Chroma
 
 from fastapi import Request
 from langchain_groq import ChatGroq
@@ -85,7 +84,8 @@ async def ask_question(request: Request):
             api_key=os.getenv("GROQ_API_KEY"),
             model_name="llama3-8b-8192"
         )
-        chain = load_qa_chain(llm, chain_type="stuff")
+        #chain = load_qa_chain(llm, chain_type="stuff")
+        chain = load_qa_chain(llm,chain_type="map_reduce")
         try:
             answer = chain.run(input_documents=docs, question=question)
             return {"question": question, "answer": answer}

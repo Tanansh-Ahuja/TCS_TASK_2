@@ -21,6 +21,18 @@ Upload any `.txt` or `.pdf` document and ask questions — the model retrieves t
 - 💡 Uses `sentence-transformers/all-MiniLM-L6-v2` for embeddings
 
 ---
+## 🧠 RAG Strategy: Map-Reduce
+
+Instead of the basic "stuff everything into a prompt" strategy, this project uses:
+
+### 🔹 Map-Reduce Approach:
+- **Map Phase**: Each retrieved document chunk is independently asked the question.
+- **Reduce Phase**: All answers are merged into a final, concise response.
+
+This improves performance when:
+- Input context is long
+- You want clearer and more structured answers
+---
 
 ## 🧱 Architecture
 
@@ -48,6 +60,7 @@ LLM (Groq) with Context → Final Answer
 | ❌ `OpenAIEmbeddings` threw 401 error with Groq key | ✅ Used `HuggingFaceEmbeddings` instead |
 | ❌ `GroqEmbeddings` not found | ✅ It's not a real class — use HuggingFace for embeddings |
 | ❌ Only `.txt` supported initially | ✅ Added `.pdf` support using `PyMuPDFLoader` |
+| ❌ Basic "stuff" strategy had coherence issues | ✅ Switched to `map_reduce` strategy for clarity |
 
 ---
 
